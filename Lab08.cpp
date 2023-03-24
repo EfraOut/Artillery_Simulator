@@ -54,18 +54,6 @@ public:
       shell.setGround(&ground);
    }
 
-   Howitzer* getHowitzer()
-   {
-      return &howitzer;
-   }
-
-
-   void fire()
-   {
-      time = 0.0;
-      howitzer.fire(&shell);
-   }
-
    void update()
    {
       // advance time by a hundreth of a second.
@@ -86,7 +74,8 @@ public:
       howitzer.draw(gout);
 
       // draw the shell
-      shell.draw(gout);
+      if (shell.hasFired())
+         shell.draw(gout);
 
       // draw some text on the screen
       gout.setf(ios::fixed | ios::showpoint);
@@ -94,8 +83,24 @@ public:
       gout << "Time since the bullet was fired: "
          << time << "s\n";
    }
+   void input(const Interface * pUI)
+   {
+      // move by more
+      if (pUI->isRight())
+         howitzer.angleRight();
+      if (pUI->isLeft())
+         howitzer.angleLeft();
 
+      // move by a little
+      if (pUI->isUp())
+         howitzer.angleUp();
+      if (pUI->isDown())
+         howitzer.angleDown();
 
+      // fire that gun
+      if (pUI->isSpace())
+         howitzer.fire(shell);
+   }
 };
 
 /*************************************
@@ -110,43 +115,17 @@ void callBack(const Interface* pUI, void* p)
    // the first step is to cast the void pointer into a game object. This
    // is the first step of every single callback function in OpenGL. 
    Simulation* pSimulation = (Simulation*)p;
-
-
-   //
-   // check and process input
-   //
-
-   // move a large amount
-   if (pUI->isRight())
-      pSimulation->getHowitzer()->angleRight();
-   if (pUI->isLeft())
-      pSimulation->getHowitzer()->angleLeft();
-
-   // move by a little
-   if (pUI->isUp())
-      pSimulation->getHowitzer()->angleUp();
-   if (pUI->isDown())
-      pSimulation->getHowitzer()->angleDown();
-
-   // fire that gun
-   if (pUI->isSpace())
-      pSimulation->fire();
-
-   //
-   // perform all the game logic
-   //
-
-   pSimulation->update();
-
    //
    // draw everything
    //
-
    pSimulation->draw();
 
+   pSimulation->input(pUI);
+
+   pSimulation->update();
+
+
 }
-
-
 double Position::metersFromPixels = 40.0;
 
 /*********************************

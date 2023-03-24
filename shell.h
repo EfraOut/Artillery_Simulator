@@ -18,6 +18,7 @@ private:
    Position  projectilePath[20];  // path of the projectile
    Velocity vel;
    Ground* ground;
+   bool isFired = false;
 
    double hang = 0;
    const double time_interval = 0.5; //turning the time interval into a constant so it does not change
@@ -26,7 +27,7 @@ private:
 
 public:
    // Constructors
-   Shell() : startPos(), vel(), angle() {}
+   Shell() : startPos(), vel(), angle(), ground() {}
    Shell(const Position& startPos) : vel(), angle()
    {
       this->startPos = startPos;
@@ -67,24 +68,6 @@ public:
          gout.drawProjectile(projectilePath[i], 0.1 * (double)i);
    }
 
-   void fire(Angle& a, double v)
-   {
-      angle = a;
-
-      setPosition(startPos);
-
-      computeVelocity(a, v);
-   }
-
-   void computeVelocity(Angle& a, double v)
-   {
-      vel.computeVelocity(a, v);
-   }
-
-   void computeVelocity(double ddx, double ddy, double grav)
-   {
-      vel += Velocity(ddx * time_interval, (ddy + grav) * time_interval);
-   }
 
    void update()
    {
@@ -101,38 +84,32 @@ public:
             projectilePath[i].setPixelsX(x);
             projectilePath[i].setPixelsY(y);
          }
-
-         // calc next projectile point
-         //projectilePath[0].addMetersX(vel.getDX() * 0.01);
-         //projectilePath[0].addMetersY(vel.getDY() * 0.01);
-
-         double x = projectilePath[0].getMetersX();
-         double y = projectilePath[0].getMetersY();
-
-         double dx = vel.getDX();
-         double dy = vel.getDY();
-
-         double gravity = gravityFromAltitude(y);
-         double velocity = vel.getSpeed();
-         double dragCoefficient = dragFromMach(velocity / speedOfSoundFromAltitude(y));
-         double densityOfAir = densityFromAltitude(y);
-
+         double gravity = gravityFromAltitude(startPos.getMetersY());
+         double velocity = sqrt(vel.getDX() * vel.getDX() + vel.getDY() * vel.getDY());
+         double dragCoefficient = dragFromMach(velocity / speedOfSoundFromAltitude(startPos.getMetersY()));
+         double densityOfAir = densityFromAltitude(startPos.getMetersY());
+         const double area = 0.018842;
          double dragForce = calculateDragForce(dragCoefficient, densityOfAir, velocity, area);
          double acceleration = calculateAccelerationFromForce(dragForce);
-         angle.calculateAngle(dx, dy);
+         angle.calculatingAngleUsingTwoComponents(vel.getDX(), vel.getDY());
          double ddx = computeHorizontalComponent(angle, acceleration) * -1.0;
          double ddy = computeVerticalComponent(angle, acceleration) * -1.0;
-         computeVelocity(ddx, ddy, gravity);
-         dx = vel.getDX();
-         dy = vel.getDY();
-         projectilePath[0].setMetersX(calculateDisplacement(x, dx, ddx, time_interval));
-         projectilePath[0].setMetersY(calculateDisplacement(y, dy, gravity + ddy, time_interval));
+         vel.setDY(computeVelocity(vel.getDY(), gravity + ddy, time_interval));
+         vel.setDX(computeVelocity(vel.getDX(), ddx, time_interval));
+         startPos.setMetersX(calculateDisplacement(startPos.getMetersX(), vel.getDX(), ddx, time_interval));
+         startPos.setMetersY(calculateDisplacement(startPos.getMetersY(), vel.getDY(), gravity + ddy, time_interval));
       }
    }
 
+   bool hasFired() { return isFired;}
+
+   void changeStatus() { isFired = !isFired; }
+
+   Position getPosition() const { return startPos; }
+
    Shell& operator=(const Shell& shell)
    {
-      startPos = shell.startPos;
+      startPos = shell.getPosition();
       return *this;
    }
 

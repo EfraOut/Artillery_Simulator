@@ -28,9 +28,11 @@ public:
    // Getters
    double getDX() const;
    double getDY() const;
+   void setDX(double dx);
+   void setDY(double dy);
 
    double getSpeed();
-   void computeVelocity(Angle a, double s);
+   void computeComponents(const Angle &a, double s);
 
    // Operation overloading
    Velocity& operator+=(const Velocity& vel);

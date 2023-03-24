@@ -45,10 +45,11 @@ public:
       this->position = position;
    }
 
-   void fire(Shell * shell)
+   void fire(Shell& shell)
    {
+      shell.changeStatus();
       time = 0;
-      shell->computeVelocity(angle, MUZZLE_VEL);
+      computeVelocity(angle.getAngle(), MUZZLE_VEL, time);
    }
 
    void draw(ogstream& gout)

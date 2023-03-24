@@ -22,7 +22,17 @@ double Velocity::getSpeed()
 double Velocity::getDX() const { return dx; }
 double Velocity::getDY() const { return dy; }
 
-void Velocity::computeVelocity(Angle a, double s)
+void Velocity::setDX(double dx)
+{
+   this->dx = dx;
+}
+
+void Velocity::setDY(double dy)
+{
+   this->dy = dy;
+}
+
+void Velocity::computeComponents(const Angle& a, double s)
 {
    dx = s * sin(a.getAngle());
    dy = s * cos(a.getAngle());
