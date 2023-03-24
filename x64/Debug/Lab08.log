@@ -1,0 +1,19 @@
+﻿  angle.cpp
+  ground.cpp
+  howitzer.cpp
+  Lab08.cpp
+  physics.cpp
+D:\Programming\CSE230\Artillery Simulator\physics.cpp(158,46): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+D:\Programming\CSE230\Artillery Simulator\physics.cpp(158,62): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+D:\Programming\CSE230\Artillery Simulator\physics.cpp(158,78): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+D:\Programming\CSE230\Artillery Simulator\physics.cpp(158,94): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+  position.cpp
+  shell.cpp
+  test.cpp
+  uiDraw.cpp
+  uiInteract.cpp
+D:\Programming\CSE230\Artillery Simulator\uiInteract.cpp(291,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+D:\Programming\CSE230\Artillery Simulator\uiInteract.cpp(291,46): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  velocity.cpp
+  Generating Code...
+  Lab08.vcxproj -> D:\Programming\CSE230\Artillery Simulator\x64\Debug\Lab08.exe

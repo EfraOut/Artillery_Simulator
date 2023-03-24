@@ -1,0 +1,2 @@
+D:\Programming\CSE230\Artillery Simulator\Helfrich\x64\Debug\Lab08.exe
+D:\Programming\CSE230\Artillery Simulator\x64\Debug\Lab08.exe
