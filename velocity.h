@@ -15,7 +15,7 @@ class Velocity
 {
    friend TestVelocity;
 private:
-      
+   
    double dx;
    double dy;
 
@@ -32,7 +32,6 @@ public:
    void setDY(double dy);
 
    double getSpeed();
-   void computeComponents(const Angle &a, double s);
 
    // Operation overloading
    Velocity& operator+=(const Velocity& vel);

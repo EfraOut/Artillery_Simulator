@@ -32,12 +32,6 @@ void Velocity::setDY(double dy)
    this->dy = dy;
 }
 
-void Velocity::computeComponents(const Angle& a, double s)
-{
-   dx = s * sin(a.getAngle());
-   dy = s * cos(a.getAngle());
-}
-
 Velocity& Velocity::operator+=(const Velocity& vel)
 {
    dx += vel.dx;

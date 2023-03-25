@@ -53,11 +53,13 @@ public:
       this->position = position;
    }
 
-   void fire(Shell& shell)
+   void fire(Shell* shell)
    {
-      shell.changeStatus();
+      shell->changeStatus();
+      shell->setAngle(angle);
+      shell->setVelocity(angle);
       time = 0;
-      computeVelocity(angle.getAngle(), MUZZLE_VEL, time);
+      
    }
 
    void draw(ogstream& gout)
@@ -76,10 +78,7 @@ public:
       }
    }
 
-   Angle getAngle()
-   {
-      return angle;
-   }
+   Angle& getAngle() { return angle; }
 
    void angleLeft()
    {

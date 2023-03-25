@@ -38,8 +38,7 @@ private:
    Shell shell;
    Howitzer howitzer;
 
-   const double time_interval = 0.1; //turning the time interval into a constant so it does not change
-
+   const double time_interval = 0.5; //turning the time interval into a constant so it does not change
 
 public:
    Simulation(Position ptUpperRight) :
@@ -49,18 +48,20 @@ public:
    {
       ptHowitzer.setPixelsX(Position(ptUpperRight).getPixelsX() / 2.0);
       ground.reset(ptHowitzer);
-      howitzer.setPosition(ptHowitzer);
       shell.setPosition(ptHowitzer);
       shell.setGround(&ground);
+      howitzer.setPosition(ptHowitzer);
    }
 
    void update()
    {
       // advance time by a hundreth of a second.
-      time += time_interval;
-
-      // update shell
-      shell.update();
+      if (shell.hasFired())
+      {
+         time += time_interval;
+         // update shell
+         shell.update();
+      }
    }
 
    void draw()
@@ -100,7 +101,7 @@ public:
 
       // fire that gun
       if (pUI->isSpace())
-         howitzer.fire(shell);
+         howitzer.fire(&shell);
    }
 };
 

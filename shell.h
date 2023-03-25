@@ -25,17 +25,16 @@ private:
    Position projectilePath[20];  // path of the projectile
    Velocity vel;
    Ground* ground;
+   Angle angle;
    bool isFired = false;
 
-   double hang = 0;
-   const double time_interval = 0.5; //turning the time interval into a constant so it does not change
    const double area = 0.018842;
-   Angle angle;
+   const double time_interval = 0.5; //turning the time interval into a constant so it does not change
 
 public:
    // Constructors
    Shell() : startPos(), vel(), angle(), ground() {}
-   Shell(const Position& startPos) : vel(), angle()
+   Shell(const Position& startPos)
    {
       this->startPos = startPos;
 
@@ -47,6 +46,17 @@ public:
          projectilePath[i].setPixelsX(x);
          projectilePath[i].setPixelsY(y);
       }
+   }
+
+   void setVelocity(Angle angle)
+   {
+      vel.setDX(computeHorizontalComponent(angle, 827.0));
+      vel.setDY(computeVerticalComponent(angle, 827.0));
+   }
+
+   void setAngle(Angle angle)
+   {
+      this->angle = angle;
    }
 
    void setPosition(Position position)
@@ -75,10 +85,9 @@ public:
          gout.drawProjectile(projectilePath[i], 0.1 * (double)i);
    }
 
-
    void update()
    {
-      cout << ground->getElevationMeters(projectilePath[0]) << endl;
+      //cout << ground->getElevationMeters(projectilePath[0]) << endl;
       if (ground->getElevationMeters(projectilePath[0]) > 0)
       {
          // update the projectiles tail
@@ -87,24 +96,25 @@ public:
             double x = projectilePath[i - 1].getPixelsX();
             double y = projectilePath[i - 1].getPixelsY();
 
-
             projectilePath[i].setPixelsX(x);
             projectilePath[i].setPixelsY(y);
          }
+
          double gravity = gravityFromAltitude(startPos.getMetersY());
          double velocity = sqrt(vel.getDX() * vel.getDX() + vel.getDY() * vel.getDY());
          double dragCoefficient = dragFromMach(velocity / speedOfSoundFromAltitude(startPos.getMetersY()));
          double densityOfAir = densityFromAltitude(startPos.getMetersY());
-         const double area = 0.018842;
          double dragForce = calculateDragForce(dragCoefficient, densityOfAir, velocity, area);
          double acceleration = calculateAccelerationFromForce(dragForce);
-         angle.calculatingAngleUsingTwoComponents(vel.getDX(), vel.getDY());
+         angle.calculateAngle(vel.getDX(), vel.getDY());
          double ddx = computeHorizontalComponent(angle, acceleration) * -1.0;
          double ddy = computeVerticalComponent(angle, acceleration) * -1.0;
          vel.setDY(computeVelocity(vel.getDY(), gravity + ddy, time_interval));
          vel.setDX(computeVelocity(vel.getDX(), ddx, time_interval));
          startPos.setMetersX(calculateDisplacement(startPos.getMetersX(), vel.getDX(), ddx, time_interval));
          startPos.setMetersY(calculateDisplacement(startPos.getMetersY(), vel.getDY(), gravity + ddy, time_interval));
+         projectilePath[0].setMetersX(calculateDisplacement(startPos.getMetersX(), vel.getDX(), ddx, time_interval));
+         projectilePath[0].setMetersY(calculateDisplacement(startPos.getMetersY(), vel.getDY(), gravity + ddy, time_interval));
       }
    }
 

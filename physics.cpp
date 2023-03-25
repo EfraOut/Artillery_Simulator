@@ -180,7 +180,7 @@ double calculateDragForce(double drag, double airDensity, double velocity, doubl
 double calculateDisplacement(double s, double v, double a, double t)
 {  
    double half = .5;
-   return s + v * t + half * a * t * t;
+   return s + v * t + half * a * (t * t);
 }
 
 // Calculate acceleration from force

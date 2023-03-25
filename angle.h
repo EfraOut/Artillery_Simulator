@@ -41,9 +41,4 @@ public:
    bool operator>(const double& angle) const;
    bool operator<(const double& angle) const;
 
-   // Calculating the angle using 2 components a = atan(dx, dy)
-   void calculatingAngleUsingTwoComponents(double dx, double dy)
-   {
-       radians = atan2(dx, dy);
-   }
 };
