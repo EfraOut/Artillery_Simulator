@@ -17,9 +17,11 @@
 #include "ground.h"     // for GROUND
 #include "position.h"   // for POINT
 #include "test.h"       // for TESTRUNNER()
-#include "shell.h"
-#include "howitzer.h"
+#include "shell.h"      // for SHELL
+#include "howitzer.h"   // for HOWITZER
 using namespace std;
+
+double Position::metersFromPixels = 40.0;
 
 /*************************************************************************
  * Simulation
@@ -29,23 +31,21 @@ class Simulation
 {
 private:
    Ground ground;                 // the ground
-   Position ptHowitzer;          // location of the howitzer
-   Position ptUpperRight;        // size of the screen
-   double angle;                  // angle of the howitzer 
+   Position ptHowitzer;           // location of the howitzer
+   Position ptUpperRight;         // size of the screen
    double time;                   // amount of time since the last firing
 
    Shell shell;
    Howitzer howitzer;
 
-   const double time_interval = 0.5; //turning the time interval into a constant so it does not change
+   const double time_interval = 0.1; //turning the time interval into a constant so it does not change
 
 
 public:
    Simulation(Position ptUpperRight) :
       ptUpperRight(ptUpperRight),
       ground(ptUpperRight),
-      time(0.0),
-      angle(0.0)
+      time(0.0)
    {
       ptHowitzer.setPixelsX(Position(ptUpperRight).getPixelsX() / 2.0);
       ground.reset(ptHowitzer);
@@ -83,6 +83,7 @@ public:
       gout << "Time since the bullet was fired: "
          << time << "s\n";
    }
+
    void input(const Interface * pUI)
    {
       // move by more
@@ -123,10 +124,7 @@ void callBack(const Interface* pUI, void* p)
    pSimulation->input(pUI);
 
    pSimulation->update();
-
-
 }
-double Position::metersFromPixels = 40.0;
 
 /*********************************
  * Initialize the simulation and set it in motion
@@ -159,7 +157,6 @@ int main(int argc, char** argv)
 
    // set everything into action
    ui.run(callBack, &sim);
-
 
    return 0;
 }

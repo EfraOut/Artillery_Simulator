@@ -1,14 +1,22 @@
+/***********************************************************************
+ * Header File:
+ *    Howitzer : Represents the M777 Howitzer Artillery
+ * Author:
+ *    Caleb Hall and Marco Varela
+ * Summary:
+ *    
+ ************************************************************************/
 #pragma once
 #include "angle.h"
 #include "position.h"
 #include "uiDraw.h"
 #include "shell.h"
+#define TIME_INTERVAL 0.1;
 
 class Howitzer
 {
 private:
    const double MUZZLE_VEL = 827.0;
-   const double time_interval = 0.1; //turning the time interval into a constant so it does not change
 
    Angle angle;
    Position position;
@@ -54,7 +62,7 @@ public:
 
    void draw(ogstream& gout)
    {  
-      time += time_interval;
+      time += TIME_INTERVAL;
       // draw the howitzer
       gout.drawHowitzer(position, angle.getAngle(), time);
    }

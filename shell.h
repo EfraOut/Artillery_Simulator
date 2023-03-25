@@ -1,5 +1,12 @@
+/***********************************************************************
+ * Header File:
+ *    Shell : Represents the shell shot by the Howitzer
+ * Author:
+ *    Caleb Hall and Marco Varela
+ * Summary:
+ *    
+ ************************************************************************/
 #pragma once
-
 
 #include "position.h"
 #include "velocity.h"
@@ -15,7 +22,7 @@ class Shell
 {
 private:
    Position startPos;
-   Position  projectilePath[20];  // path of the projectile
+   Position projectilePath[20];  // path of the projectile
    Velocity vel;
    Ground* ground;
    bool isFired = false;
@@ -112,5 +119,4 @@ public:
       startPos = shell.getPosition();
       return *this;
    }
-
 };
