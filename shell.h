@@ -21,7 +21,7 @@ using namespace std;
 class Shell
 {
 private:
-   Position startPos;
+   Position pos;
    Position projectilePath[20];  // path of the projectile
    Velocity vel;
    Ground* ground;
@@ -33,10 +33,10 @@ private:
 
 public:
    // Constructors
-   Shell() : startPos(), vel(), angle(), ground() {}
+   Shell() : pos(), vel(), angle(), ground() {}
    Shell(const Position& startPos)
    {
-      this->startPos = startPos;
+      this->pos = startPos;
 
       double x = startPos.getPixelsX();
       double y = startPos.getPixelsY();
@@ -61,10 +61,10 @@ public:
 
    void setPosition(Position position)
    {
-      this->startPos = position;
+      this->pos = position;
 
-      double x = startPos.getPixelsX();
-      double y = startPos.getPixelsY();
+      double x = pos.getPixelsX();
+      double y = pos.getPixelsY();
 
       for (int i = 0; i < 20; i++)
       {
@@ -87,7 +87,8 @@ public:
 
    void update()
    {
-      //cout << ground->getElevationMeters(projectilePath[0]) << endl;
+      cout << "Ground: " << ground->getElevationMeters(projectilePath[0]) << endl;
+      cout << "Shell: " <<pos.getMetersY() << endl;
       if (ground->getElevationMeters(projectilePath[0]) > 0)
       {
          // update the projectiles tail
@@ -100,10 +101,10 @@ public:
             projectilePath[i].setPixelsY(y);
          }
 
-         double gravity = gravityFromAltitude(startPos.getMetersY());
+         double gravity = gravityFromAltitude(pos.getMetersY());
          double velocity = sqrt(vel.getDX() * vel.getDX() + vel.getDY() * vel.getDY());
-         double dragCoefficient = dragFromMach(velocity / speedOfSoundFromAltitude(startPos.getMetersY()));
-         double densityOfAir = densityFromAltitude(startPos.getMetersY());
+         double dragCoefficient = dragFromMach(velocity / speedOfSoundFromAltitude(pos.getMetersY()));
+         double densityOfAir = densityFromAltitude(pos.getMetersY());
          double dragForce = calculateDragForce(dragCoefficient, densityOfAir, velocity, area);
          double acceleration = calculateAccelerationFromForce(dragForce);
          angle.calculateAngle(vel.getDX(), vel.getDY());
@@ -111,22 +112,27 @@ public:
          double ddy = computeVerticalComponent(angle, acceleration) * -1.0;
          vel.setDY(computeVelocity(vel.getDY(), gravity + ddy, time_interval));
          vel.setDX(computeVelocity(vel.getDX(), ddx, time_interval));
-         startPos.setMetersX(calculateDisplacement(startPos.getMetersX(), vel.getDX(), ddx, time_interval));
-         startPos.setMetersY(calculateDisplacement(startPos.getMetersY(), vel.getDY(), gravity + ddy, time_interval));
-         projectilePath[0].setMetersX(calculateDisplacement(startPos.getMetersX(), vel.getDX(), ddx, time_interval));
-         projectilePath[0].setMetersY(calculateDisplacement(startPos.getMetersY(), vel.getDY(), gravity + ddy, time_interval));
+         pos.setMetersX(calculateDisplacement(pos.getMetersX(), vel.getDX(), ddx, time_interval));
+         pos.setMetersY(calculateDisplacement(pos.getMetersY(), vel.getDY(), gravity + ddy, time_interval));
+         projectilePath[0].setMetersX(calculateDisplacement(pos.getMetersX(), vel.getDX(), ddx, time_interval));
+         projectilePath[0].setMetersY(calculateDisplacement(pos.getMetersY(), vel.getDY(), gravity + ddy, time_interval));
       }
    }
 
-   bool hasFired() { return isFired;}
+   bool hasFired() { return isFired; }
+
+   bool hasCollided()
+   {
+      return pos.getMetersY() < ground->getElevationMeters(pos);
+   }
 
    void changeStatus() { isFired = !isFired; }
 
-   Position getPosition() const { return startPos; }
+   Position getPosition() const { return pos; }
 
    Shell& operator=(const Shell& shell)
    {
-      startPos = shell.getPosition();
+      pos = shell.getPosition();
       return *this;
    }
 };

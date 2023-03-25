@@ -56,7 +56,7 @@ public:
    void update()
    {
       // advance time by a hundreth of a second.
-      if (shell.hasFired())
+      if (shell.hasFired() && !shell.hasCollided())
       {
          time += time_interval;
          // update shell
@@ -150,7 +150,7 @@ int main(int argc, char** argv)
    ptUpperRight.setPixelsY(500.0);
    Position().setZoom(40.0 /* 42 meters equals 1 pixel */);
    Interface ui(0, NULL,
-      "Artillery Simulator",   /* name on the window */
+      "M777 Artillery Simulator",   /* name on the window */
       ptUpperRight);
 
    // Initialize the demo
