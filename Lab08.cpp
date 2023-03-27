@@ -66,7 +66,7 @@ public:
 
    void draw()
    {
-      ogstream gout(Position(10.0, ptUpperRight.getPixelsY() - 20.0));
+      ogstream gout(Position(0,0));
 
       // draw the ground first
       ground.draw(gout);
@@ -75,16 +75,31 @@ public:
       howitzer.draw(gout);
 
       // draw the shell
-      if (shell.hasFired())
+      if (shell.hasFired()) {
          shell.draw(gout);
 
-      // draw some text on the screen
-      gout.setf(ios::fixed | ios::showpoint);
-      gout.precision(1);
-      gout << "Time since the bullet was fired: "
-         << time << "s\n";
-   }
-
+         // draw some text on the screen
+         gout.setf(ios::fixed | ios::showpoint);
+         gout.precision(1);
+         gout.setPosition(Position(ptUpperRight.getMetersX() - 5000, ptUpperRight.getMetersY() - 1380.0));
+         gout << "Altitude: "
+            << shell.getPosition().getMetersY() << "m\n";
+         gout << "Speed: "
+            << shell.getVelocity().getSpeed() << "m/s\n";
+         gout << "Distance: "
+            << abs(shell.getPosition().getMetersX() - howitzer.getPosition().getMetersX() )<< "m\n";
+         gout << "Hang Time: "
+            << time << "s\n";
+         
+      }
+      else
+      {
+         gout.setPosition(Position(ptUpperRight.getMetersX() - 5000, ptUpperRight.getMetersY() - 1380.0));
+         gout.precision(3);
+         gout << "Angle: " << howitzer.getAngle().getDegrees() << " degree\n";
+      }
+   }   
+      
    void input(const Interface * pUI)
    {
       // move by more

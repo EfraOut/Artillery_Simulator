@@ -26,7 +26,8 @@ public:
    Angle(double radians);
 
    // Getter and Setter
-   double getAngle() const;
+   double getRadians() const;
+   double getDegrees() const;
    void setAngle(double radians);
 
    // For calculating the updated angle

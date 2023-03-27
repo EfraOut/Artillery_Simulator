@@ -19,9 +19,13 @@ Angle::Angle(double radians)
       this->radians = radians;
    }
 
-double Angle::getAngle() const { return radians; }
+double Angle::getRadians() const { return radians; }
+
+
+double Angle::getDegrees() const { return radians * 180/ M_PI; }
 
 void Angle::setAngle(double radians) { this->radians = radians; }
+
 
 void Angle::calculateAngle(double dx, double dy)
 {

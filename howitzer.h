@@ -32,7 +32,7 @@ private:
       {
          angle = 3.1415 / 2;
       }
-   }
+   } 
    
 public:
    Howitzer() : 
@@ -53,6 +53,11 @@ public:
       this->position = position;
    }
 
+   Position getPosition()
+   {
+      return position;
+   }
+
    void fire(Shell* shell)
    {
       shell->changeStatus();
@@ -66,12 +71,12 @@ public:
    {  
       time += TIME_INTERVAL;
       // draw the howitzer
-      gout.drawHowitzer(position, angle.getAngle(), time);
+      gout.drawHowitzer(position, angle.getRadians(), time);
    }
 
    void updateAngle(double radians)
    {
-      double newAngle = angle.getAngle() + radians;
+      double newAngle = angle.getRadians() + radians;
       if (newAngle > -(3.1415 / 2) && newAngle < (3.1415 / 2))
       {
          angle.setAngle(newAngle);

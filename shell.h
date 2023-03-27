@@ -54,6 +54,11 @@ public:
       vel.setDY(computeVerticalComponent(angle, 827.0));
    }
 
+   Velocity getVelocity()
+   {
+      return vel;
+   }
+
    void setAngle(Angle angle)
    {
       this->angle = angle;

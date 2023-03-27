@@ -189,13 +189,13 @@ double calculateAccelerationFromForce(double force) { return force / MASS; }
 // Compute horizontal component
 double computeHorizontalComponent(Angle a, double s) 
 {
-   return s * sin(a.getAngle());
+   return s * sin(a.getRadians());
 }
 
 // Compute vertical component
 double computeVerticalComponent(Angle a, double s) 
 {
-   return s * cos(a.getAngle());
+   return s * cos(a.getRadians());
 }
 
 // Update velocity 
