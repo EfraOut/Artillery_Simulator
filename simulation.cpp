@@ -21,7 +21,12 @@ Simulation::Simulation(Position ptUpperRight) :
    time(0.0)
 {
    this->ground = Ground(ptUpperRight);
-   ptHowitzer.setPixelsX(Position(ptUpperRight).getPixelsX() / 2.0);
+   reset();
+}
+
+void Simulation::reset()
+{
+   ptHowitzer.setPixelsX(rand()% (int) ptUpperRight.getPixelsX()  );
    ground.reset(ptHowitzer);
    shell.setPosition(&ptHowitzer);
    howitzer.setPosition(ptHowitzer);
@@ -36,6 +41,15 @@ void Simulation::update()
       time += time_interval;
       // update shell
       shell.update();
+   }
+   if (shell.hasCollided())
+   {
+      if (this->ground.getTarget().getPixelsX() -5 <= shell.getPosition().getPixelsX()
+         && this->ground.getTarget().getPixelsX() + 5 >= shell.getPosition().getPixelsX())
+      {
+         reset();
+
+      }
    }
 }
 

@@ -38,5 +38,6 @@ public:
    void draw();
    void input(const Interface* pUI);
 
+   void reset();
 };
 

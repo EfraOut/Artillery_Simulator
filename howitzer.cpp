@@ -42,6 +42,7 @@ void Howitzer::draw(ogstream& gout) const
    gout.drawHowitzer(position, angle.getRadians(), time);
 }
 
+
 void Howitzer::updateAngle(double radians)
 {
    double newAngle = angle.getRadians() + radians;
