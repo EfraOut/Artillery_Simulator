@@ -43,18 +43,19 @@ private:
 public:
    Simulation(Position ptUpperRight) :
       ptUpperRight(ptUpperRight),
-      ground(ptUpperRight),
+      shell(&ground),
       time(0.0)
    {
+      this->ground = Ground(ptUpperRight);
       ptHowitzer.setPixelsX(Position(ptUpperRight).getPixelsX() / 2.0);
       ground.reset(ptHowitzer);
-      shell.setPosition(ptHowitzer);
-      shell.setGround(&ground);
+      shell.setPosition(&ptHowitzer);
       howitzer.setPosition(ptHowitzer);
    }
 
    void update()
    {
+      howitzer.update();
       // advance time by a hundreth of a second.
       if (shell.hasFired() && !shell.hasCollided())
       {
@@ -102,21 +103,15 @@ public:
       
    void input(const Interface * pUI)
    {
-      // move by more
-      if (pUI->isRight())
-         howitzer.angleRight();
-      if (pUI->isLeft())
-         howitzer.angleLeft();
-
-      // move by a little
-      if (pUI->isUp())
-         howitzer.angleUp();
-      if (pUI->isDown())
-         howitzer.angleDown();
+      // move howitzer
+      howitzer.input(pUI);
 
       // fire that gun
       if (pUI->isSpace())
-         howitzer.fire(&shell);
+         if (shell.hasCollided() && shell.hasFired())
+            shell.reset();
+         else if(!shell.hasFired())
+            howitzer.fire(&shell);
    }
 };
 

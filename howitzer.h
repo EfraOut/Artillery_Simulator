@@ -11,6 +11,7 @@
 #include "position.h"
 #include "uiDraw.h"
 #include "shell.h"
+#include "uiInteract.h" // for INTERFACE
 #define TIME_INTERVAL 0.1;
 
 class Howitzer
@@ -35,78 +36,32 @@ private:
    } 
    
 public:
-   Howitzer() : 
-      position(),
-      angle(),
-      time(2.5)
-   {}
+   Howitzer();
    
-   Howitzer(Position &position) :
-      angle(),
-      time(2.5)
-   {
-      this->position = position;
-   }
+   Howitzer(Position& position);
 
-   void setPosition(Position &position)
-   {
-      this->position = position;
-   }
+   void setPosition(Position &position) { this->position = position; }
 
-   Position getPosition()
-   {
-      return position;
-   }
+   Position getPosition() const { return position; }
 
-   void fire(Shell* shell)
-   {
-      shell->changeStatus();
-      shell->setAngle(angle);
-      shell->setVelocity(angle);
-      time = 0;
-      
-   }
+   void fire(Shell* shell);
 
-   void draw(ogstream& gout)
-   {  
-      time += TIME_INTERVAL;
-      // draw the howitzer
-      gout.drawHowitzer(position, angle.getRadians(), time);
-   }
+   void update();
 
-   void updateAngle(double radians)
-   {
-      double newAngle = angle.getRadians() + radians;
-      if (newAngle > -(3.1415 / 2) && newAngle < (3.1415 / 2))
-      {
-         angle.setAngle(newAngle);
-      }
-   }
+   void draw(ogstream& gout) const;
+
+   void updateAngle(double radians);
 
    Angle& getAngle() { return angle; }
 
-   void angleLeft()
-   {
-      angle -= 0.05;
-      normalize();
-   }
+   void input(const Interface* pUI);
 
-   void angleRight()
-   {
-      angle += 0.05;
-      normalize();
-   }
+   void angleLeft();
 
-   void angleUp()
-   {
-      angle += (angle >= 0 ? - 0.003 : 0.003);
-      normalize();
-   }
+   void angleRight();
 
-   void angleDown()
-   {
-      angle += (angle >= 0 ? 0.003 : -0.003);
-      normalize();
-   }
+   void angleUp();
+
+   void angleDown();
 };
 
