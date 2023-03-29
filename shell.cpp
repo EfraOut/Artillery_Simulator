@@ -1,5 +1,9 @@
 #pragma once
 #include "shell.h"
+#include "velocity.h"
+#include "ground.h"
+#include "physics.h"
+#include "angle.h"
 
 // Constructors
 Shell::Shell() : pos(), vel(), angle(), ground() {}

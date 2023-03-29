@@ -1,2 +1,6 @@
-﻿  Lab08.cpp
-  Lab08.vcxproj -> C:\Users\Caleb\source\Repos3\Artillery_Simulator\x64\Debug\Lab08.exe
+﻿  howitzer.cpp
+  Lab08.cpp
+  shell.cpp
+  simulation.cpp
+  Generating Code...
+  Lab08.vcxproj -> D:\Programming\CSE230\Artillery_Simulator\x64\Debug\Lab08.exe

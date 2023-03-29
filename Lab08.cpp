@@ -19,101 +19,11 @@
 #include "test.h"       // for TESTRUNNER()
 #include "shell.h"      // for SHELL
 #include "howitzer.h"   // for HOWITZER
+#include "simulation.h" // for SIMULATION
 using namespace std;
 
+// Static member
 double Position::metersFromPixels = 40.0;
-
-/*************************************************************************
- * Simulation
- * Structure to capture the bullet that will move around the screen
- *************************************************************************/
-class Simulation
-{
-private:
-   Ground ground;                 // the ground
-   Position ptHowitzer;           // location of the howitzer
-   Position ptUpperRight;         // size of the screen
-   double time;                   // amount of time since the last firing
-
-   Shell shell;
-   Howitzer howitzer;
-
-   const double time_interval = 0.5; //turning the time interval into a constant so it does not change
-
-public:
-   Simulation(Position ptUpperRight) :
-      ptUpperRight(ptUpperRight),
-      shell(&ground),
-      time(0.0)
-   {
-      this->ground = Ground(ptUpperRight);
-      ptHowitzer.setPixelsX(Position(ptUpperRight).getPixelsX() / 2.0);
-      ground.reset(ptHowitzer);
-      shell.setPosition(&ptHowitzer);
-      howitzer.setPosition(ptHowitzer);
-   }
-
-   void update()
-   {
-      howitzer.update();
-      // advance time by a hundreth of a second.
-      if (shell.hasFired() && !shell.hasCollided())
-      {
-         time += time_interval;
-         // update shell
-         shell.update();
-      }
-   }
-
-   void draw()
-   {
-      ogstream gout(Position(0,0));
-
-      // draw the ground first
-      ground.draw(gout);
-
-      // draw the howitzer
-      howitzer.draw(gout);
-
-      // draw the shell
-      if (shell.hasFired()) {
-         shell.draw(gout);
-
-         // draw some text on the screen
-         gout.setf(ios::fixed | ios::showpoint);
-         gout.precision(1);
-         gout.setPosition(Position(ptUpperRight.getMetersX() - 5000, ptUpperRight.getMetersY() - 1380.0));
-         gout << "Altitude: "
-            << shell.getPosition().getMetersY() << "m\n";
-         gout << "Speed: "
-            << shell.getVelocity().getSpeed() << "m/s\n";
-         gout << "Distance: "
-            << abs(shell.getPosition().getMetersX() - howitzer.getPosition().getMetersX() )<< "m\n";
-         gout << "Hang Time: "
-            << time << "s\n";
-         
-      }
-      else
-      {
-         gout.setPosition(Position(ptUpperRight.getMetersX() - 5000, ptUpperRight.getMetersY() - 1380.0));
-         gout.precision(3);
-         gout << "Angle: " << howitzer.getAngle().getDegrees() << " degree\n";
-      }
-   }   
-      
-   void input(const Interface * pUI)
-   {
-      // move howitzer
-      howitzer.input(pUI);
-
-      // fire that gun
-      if (pUI->isSpace())
-         if (shell.hasCollided() && shell.hasFired())
-            shell.reset();
-         else if(!shell.hasFired())
-            howitzer.fire(&shell);
-   }
-};
 
 /*************************************
  * All the interesting work happens here, when
@@ -127,13 +37,14 @@ void callBack(const Interface* pUI, void* p)
    // the first step is to cast the void pointer into a game object. This
    // is the first step of every single callback function in OpenGL. 
    Simulation* pSimulation = (Simulation*)p;
-   //
+ 
    // draw everything
-   //
    pSimulation->draw();
 
+   // get the user input
    pSimulation->input(pUI);
 
+   // perform the physics
    pSimulation->update();
 }
 
