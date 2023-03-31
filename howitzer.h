@@ -30,8 +30,10 @@ public:
    
    Howitzer(Position& position);
 
+   //Sets the position of Howitzer.
    void setPosition(Position &position) { this->position = position; }
 
+   //Returns the position of Howitzer.
    Position getPosition() const { return position; }
 
    void fire(Shell* shell);
@@ -42,6 +44,7 @@ public:
 
    void updateAngle(double radians);
 
+   //Returns the angle of Howitzer.
    Angle getAngle() const { return angle; }
 
    void input(const Interface* pUI);

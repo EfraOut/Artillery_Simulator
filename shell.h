@@ -39,26 +39,32 @@ public:
 
    bool hasCollided() const { return collided;}
 
+   // Let the shell know it has colided with something.
    void collision() { collided = true; }
 
    void setVelocity(Angle angle);
 
+   // Get the shells velocity.
    Velocity getVelocity() const { return vel; }
 
+   // Set the angle of the shell.
    void setAngle(Angle angle) { this->angle = angle; }
 
+   //Set the position of the shell
    void setPosition(Position position) { pos = position;}
 
    void draw(ogstream& gout);
 
    void update(const Ground & ground);
 
+   // True if the shell has been fires without being reset, false otherwise.
    bool hasFired() const { return isFired; }
 
    void fired() { isFired = true; }
 
    void reset(const Position & pos);
 
+   // Get the position of the shell.
    Position getPosition() const { return pos; }
 
    Shell& operator=(const Shell& shell);

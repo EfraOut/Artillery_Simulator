@@ -6,8 +6,16 @@
 #include "angle.h"
 
 // Constructors
+
+ /*
+ * DEFAULT CONSTRUCTOR
+ */
 Shell::Shell() : pos(), vel(), angle() {}
 
+/*
+* SHELL CONSTRUCTOR
+* Initializes shell with a positon.
+*/
 Shell::Shell(const Position& startPos)
 {
    this->pos = startPos;
@@ -22,14 +30,20 @@ Shell::Shell(const Position& startPos)
    }
 }
 
-
+/*
+* SET VELOCITY
+* Sets the X any Y veocity of shell according to the muzzle velocity.
+*/
 void Shell::setVelocity(Angle angle)
 {
    vel.setDX(computeHorizontalComponent(angle, 827.0));
    vel.setDY(computeVerticalComponent(angle, 827.0));
 }
 
-
+/*
+* DRAW
+* Calls the functions with the nesesary atributes for the shell and its trail to show onscreen.
+*/
 void Shell::draw(ogstream& gout)
 {
    // draw the projectile and path
@@ -37,6 +51,10 @@ void Shell::draw(ogstream& gout)
       gout.drawProjectile(projectilePath[i], 0.5 * (double)i);
 }
 
+/*
+* UPDATE
+* Takes care of updating the atributes that need to be updated each frame. Uses equations from physics to calculate the next position.
+*/
 void Shell::update(const Ground & ground)
 {
    //cout << "Ground: " << ground->getElevationMeters(projectilePath[0]) << endl;
@@ -83,12 +101,10 @@ void Shell::update(const Ground & ground)
    }
 }
 
-Shell& Shell::operator=(const Shell& shell)
-{
-   pos = shell.getPosition();
-   return *this;
-}
-
+/*
+* RESET
+* Resets the shells atributes, and puts it at the specified positon on screen.
+*/
 void Shell::reset(const Position & pos)
 {
    isFired = false;
@@ -98,4 +114,10 @@ void Shell::reset(const Position & pos)
       projectilePath[i].setPixelsX(pos.getPixelsX());
       projectilePath[i].setPixelsY(pos.getPixelsY());
    }
+}
+
+Shell& Shell::operator=(const Shell& shell)
+{
+   pos = shell.getPosition();
+   return *this;
 }

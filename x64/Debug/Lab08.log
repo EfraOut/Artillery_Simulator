@@ -1,6 +1,21 @@
-﻿  Lab08.cpp
+﻿  angle.cpp
+  ground.cpp
   howitzer.cpp
+  Lab08.cpp
+  physics.cpp
+C:\Users\Caleb\source\Repos4\Artillery_Simulator\physics.cpp(158,46): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+C:\Users\Caleb\source\Repos4\Artillery_Simulator\physics.cpp(158,62): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+C:\Users\Caleb\source\Repos4\Artillery_Simulator\physics.cpp(158,78): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+C:\Users\Caleb\source\Repos4\Artillery_Simulator\physics.cpp(158,94): warning C4244: 'argument': conversion from 'double' to 'const unsigned __int64', possible loss of data
+  position.cpp
   shell.cpp
   simulation.cpp
+  test.cpp
+  uiDraw.cpp
+  uiInteract.cpp
+C:\Users\Caleb\source\Repos4\Artillery_Simulator\uiInteract.cpp(291,74): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+C:\Users\Caleb\source\Repos4\Artillery_Simulator\uiInteract.cpp(291,46): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+  velocity.cpp
   Generating Code...
-  Lab08.vcxproj -> C:\Users\marco\Desktop\Artillery_Simulator\x64\Debug\Lab08.exe
+  LINK : C:\Users\Caleb\source\Repos4\Artillery_Simulator\x64\Debug\Lab08.exe not found or not built by the last incremental link; performing full link
+  Lab08.vcxproj -> C:\Users\Caleb\source\Repos4\Artillery_Simulator\x64\Debug\Lab08.exe
