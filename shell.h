@@ -22,12 +22,12 @@ class Shell
 {
 private:
    Position pos;
-   Position* startPos;
    Position projectilePath[20];  // path of the projectile
    Velocity vel;
-   Ground* ground;
    Angle angle;
    bool isFired = false;
+   bool collided = false;
+
 
    const double area = 0.018842;
    const double time_interval = 0.5; //turning the time interval into a constant so it does not change
@@ -36,30 +36,28 @@ public:
    // Constructors
    Shell();
    Shell(const Position& startPos);
-   Shell(Ground* ground);
-   Shell(Position* position, Ground* ground);
 
-   void reset();
+   bool hasCollided() const { return collided;}
+
+   void collision() { collided = true; }
 
    void setVelocity(Angle angle);
 
-   Velocity getVelocity() { return vel; }
+   Velocity getVelocity() const { return vel; }
 
    void setAngle(Angle angle) { this->angle = angle; }
 
-   void setPosition(Position* position);
-
-   void setGround(Ground* ground) { this->ground = ground; }
+   void setPosition(Position position) { pos = position;}
 
    void draw(ogstream& gout);
 
-   void update();
+   void update(const Ground & ground);
 
-   bool hasFired() { return isFired; }
+   bool hasFired() const { return isFired; }
 
-   bool hasCollided() { return pos.getMetersY() < ground->getElevationMeters(pos); }
+   void fired() { isFired = true; }
 
-   void changeStatus() { isFired = !isFired; }
+   void reset(const Position & pos);
 
    Position getPosition() const { return pos; }
 

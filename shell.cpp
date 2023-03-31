@@ -6,7 +6,7 @@
 #include "angle.h"
 
 // Constructors
-Shell::Shell() : pos(), vel(), angle(), ground() {}
+Shell::Shell() : pos(), vel(), angle() {}
 
 Shell::Shell(const Position& startPos)
 {
@@ -22,24 +22,6 @@ Shell::Shell(const Position& startPos)
    }
 }
 
-Shell::Shell(Ground* ground)
-{
-
-   setGround(ground);
-}
-
-Shell::Shell(Position* position, Ground* ground)
-{
-   setPosition(position);
-
-   setGround(ground);
-}
-
-void Shell::reset()
-{
-   isFired = false;
-   setPosition(startPos);
-}
 
 void Shell::setVelocity(Angle angle)
 {
@@ -47,20 +29,6 @@ void Shell::setVelocity(Angle angle)
    vel.setDY(computeVerticalComponent(angle, 827.0));
 }
 
-void Shell::setPosition(Position* position)
-{
-   this->startPos = position;
-   this->pos = *position;
-
-   double x = pos.getPixelsX();
-   double y = pos.getPixelsY();
-
-   for (int i = 0; i < 20; i++)
-   {
-      projectilePath[i].setPixelsX(x);
-      projectilePath[i].setPixelsY(y);
-   }
-}
 
 void Shell::draw(ogstream& gout)
 {
@@ -69,7 +37,7 @@ void Shell::draw(ogstream& gout)
       gout.drawProjectile(projectilePath[i], 0.5 * (double)i);
 }
 
-void Shell::update()
+void Shell::update(const Ground & ground)
 {
    //cout << "Ground: " << ground->getElevationMeters(projectilePath[0]) << endl;
    //cout << "Shell: " << pos.getMetersY() << endl;
@@ -106,12 +74,9 @@ void Shell::update()
       double y0 = projectilePath[1].getMetersY();
       double y1 = projectilePath[0].getMetersY();
 
-      double x = calculateLinearInterpolation(y1, x1, y0, x0, ground->getElevationMeters(pos));
-      double y = ground->getElevationMeters(pos);
+      double x = calculateLinearInterpolation(y1, x1, y0, x0, ground.getElevationMeters(pos));
+      double y = ground.getElevationMeters(pos);
 
-      cout << "x0: " << x0 << " y0: " << y0 << " x1: " << x1 << " y1: " << y1 << endl;
-      cout << "elevation: " << ground->getElevationMeters(pos) << endl;
-      cout << "x: " << x << " y: " << y << endl;
 
       projectilePath[0].setMetersX(x);
       projectilePath[0].setMetersY(y);
@@ -122,4 +87,15 @@ Shell& Shell::operator=(const Shell& shell)
 {
    pos = shell.getPosition();
    return *this;
+}
+
+void Shell::reset(const Position & pos)
+{
+   isFired = false;
+   collided = false;
+   for (int i = 0; i < 20; i++)
+   {
+      projectilePath[i].setPixelsX(pos.getPixelsX());
+      projectilePath[i].setPixelsY(pos.getPixelsY());
+   }
 }

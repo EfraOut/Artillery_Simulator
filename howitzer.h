@@ -23,17 +23,7 @@ private:
    Position position;
    double time;
 
-   void normalize()
-   {
-      if (angle < -3.1415 / 2)
-      {
-         angle = -3.1415 / 2;
-      }
-      if (angle > 3.1415 / 2)
-      {
-         angle = 3.1415 / 2;
-      }
-   } 
+   void normalize();
    
 public:
    Howitzer();
@@ -52,7 +42,7 @@ public:
 
    void updateAngle(double radians);
 
-   Angle& getAngle() { return angle; }
+   Angle getAngle() const { return angle; }
 
    void input(const Interface* pUI);
 

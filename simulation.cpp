@@ -17,7 +17,7 @@
 
 Simulation::Simulation(Position ptUpperRight) :
    ptUpperRight(ptUpperRight),
-   shell(&ground),
+   shell(),
    time(0.0)
 {
    this->ground = Ground(ptUpperRight);
@@ -28,28 +28,37 @@ void Simulation::reset()
 {
    ptHowitzer.setPixelsX(rand()% (int) ptUpperRight.getPixelsX()  );
    ground.reset(ptHowitzer);
-   shell.setPosition(&ptHowitzer);
+   shell.setPosition(ptHowitzer);
    howitzer.setPosition(ptHowitzer);
 }
 
 void Simulation::update()
 {
+
+   if (shell.getPosition().getMetersY() < ground.getElevationMeters(shell.getPosition()))
+   {
+      shell.collision();
+    }
+ 
+
    howitzer.update();
    // advance time by a hundreth of a second.
    if (shell.hasFired() && !shell.hasCollided())
    {
       time += time_interval;
       // update shell
-      shell.update();
+      shell.update(ground);
    }
    if (shell.hasCollided())
    {
-      if (this->ground.getTarget().getPixelsX() -5 <= shell.getPosition().getPixelsX()
+      if (this->ground.getTarget().getPixelsX() - 5 <= shell.getPosition().getPixelsX()
          && this->ground.getTarget().getPixelsX() + 5 >= shell.getPosition().getPixelsX())
       {
          reset();
 
       }
+      else
+         shell.reset(howitzer.getPosition());
    }
 }
 
@@ -96,8 +105,6 @@ void Simulation::input(const Interface* pUI)
 
    // fire that gun
    if (pUI->isSpace())
-      if (shell.hasCollided() && shell.hasFired())
-         shell.reset();
-      else if (!shell.hasFired())
+      if (!shell.hasCollided() && !shell.hasFired())
          howitzer.fire(&shell);
 }

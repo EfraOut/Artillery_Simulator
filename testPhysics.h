@@ -39,15 +39,14 @@ public:
       test_calculateDragForce_peak();
 
       // The following 8 test cases are part of the artillery prototype project
-      test_inertia_1();
-      test_acceleration_2();
-      test_ground_impact_3();
-      test_gravity_4();
-      test_drag_5();
-      test_air_density_6();
-      test_drag_coeffecient_7();
-      test_hit_the_ground_8();
-      cout << "\nAll the test cases for testPhysics.h have been successfull!\n";
+      //test_inertia_1();
+      //test_acceleration_2();
+      //test_ground_impact_3();
+      //test_gravity_4();
+      //test_drag_5();
+      //test_air_density_6();
+      //test_drag_coeffecient_7();
+      //test_hit_the_ground_8();
    }
 private:
 

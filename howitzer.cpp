@@ -24,9 +24,10 @@ Howitzer::Howitzer(Position& position) :
 
 void Howitzer::fire(Shell* shell)
 {
-   shell->changeStatus();
    shell->setAngle(angle);
    shell->setVelocity(angle);
+   shell->fired();
+   shell->setPosition(position);
    time = 0;
 
 }
@@ -89,4 +90,17 @@ void Howitzer::angleDown()
 {
    angle += (angle >= 0 ? 0.003 : -0.003);
    normalize();
+}
+
+
+void Howitzer:: normalize()
+{
+   if (angle < -3.1415 / 2)
+   {
+      angle = -3.1415 / 2;
+   }
+   if (angle > 3.1415 / 2)
+   {
+      angle = 3.1415 / 2;
+   }
 }
