@@ -24,6 +24,7 @@ Simulation::Simulation(Position ptUpperRight) :
    reset();
 }
 
+//Reseting the simulator
 void Simulation::reset()
 {
    ptHowitzer.setPixelsX(rand()% (int) ptUpperRight.getPixelsX()  );
@@ -32,6 +33,7 @@ void Simulation::reset()
    howitzer.setPosition(ptHowitzer);
 }
 
+//Update function for our simulator
 void Simulation::update()
 {
 

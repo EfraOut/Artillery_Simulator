@@ -2,7 +2,7 @@
  * Source File:
  *    Test : Test runner
  * Author:
- *    Br. Helfrich
+ *    Br. Helfrich, Marco Varela, Efrain Gomez and Caleb Hall
  * Summary:
  *    The test runner for all the unit tests
  ************************************************************************/

@@ -4,7 +4,7 @@
  * Author:
  *    Caleb Hall and Marco Varela
  * Summary:
- *    
+ *    This class represents the Howitzer from the simulator
  ************************************************************************/
 #pragma once
 #include "angle.h"

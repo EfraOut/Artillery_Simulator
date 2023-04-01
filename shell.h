@@ -4,7 +4,7 @@
  * Author:
  *    Caleb Hall and Marco Varela
  * Summary:
- *    
+ *    This class represents the Shell being fired by the Howitzer
  ************************************************************************/
 #pragma once
 

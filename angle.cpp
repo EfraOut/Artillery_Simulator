@@ -19,14 +19,16 @@ Angle::Angle(double radians)
       this->radians = radians;
    }
 
+//Getting radians
 double Angle::getRadians() const { return radians; }
 
-
+//Getting degrees
 double Angle::getDegrees() const { return radians * 180/ M_PI; }
 
+//Setting the angle
 void Angle::setAngle(double radians) { this->radians = radians; }
 
-
+//Calculating the angle using the atan2 formula (the one that takes two parameters)
 void Angle::calculateAngle(double dx, double dy)
 {
    radians = atan2(dx, dy);

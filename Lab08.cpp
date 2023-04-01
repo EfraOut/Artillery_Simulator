@@ -2,13 +2,9 @@
  * 1. Name:
  *      The Key
  * 2. Assignment Name:
- *      Lab 08: M777 Howitzer
+ *     M777 Howitzer
  * 3. Assignment Description:
  *      Simulate firing the M777 howitzer 15mm artillery piece
- * 4. What was the hardest part? Be as specific as possible.
- *      ??
- * 5. How long did it take for you to complete the assignment?
- *      ??
  **************************************************************/
 
 #include <cassert>      // for ASSERT
@@ -74,7 +70,8 @@ int main(int argc, char** argv)
       "M777 Artillery Simulator",   /* name on the window */
       ptUpperRight);
 
-   // Initialize the demo
+   // Initialize the simulator
+
    Simulation sim(ptUpperRight);
 
    // set everything into action

@@ -1,3 +1,11 @@
+/***********************************************************************
+ * Source File:
+ *    Shell : Represents the shell shot by the Howitzer
+ * Author:
+ *    Caleb Hall and Marco Varela
+ * Summary:
+ *    This class represents the Shell being fired by the Howitzer
+ ************************************************************************/
 #pragma once
 #include "shell.h"
 #include "velocity.h"
@@ -70,6 +78,7 @@ void Shell::update(const Ground & ground)
       projectilePath[i].setPixelsY(y);
    }
 
+   // Here is all of the logic of the shell using the functions provided by physics.h
    double gravity = gravityFromAltitude(pos.getMetersY());
    double velocity = sqrt(vel.getDX() * vel.getDX() + vel.getDY() * vel.getDY());
    double dragCoefficient = dragFromMach(velocity / speedOfSoundFromAltitude(pos.getMetersY()));

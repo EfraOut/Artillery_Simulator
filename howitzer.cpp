@@ -4,7 +4,7 @@
  * Author:
  *    Caleb Hall
  * Summary:
- *
+ *    Represents the Howitzer for our simulator
  ************************************************************************/
 
 #include "howitzer.h"

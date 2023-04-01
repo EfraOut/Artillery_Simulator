@@ -2,7 +2,7 @@
  * Header File:
  *    Angle : Represents an angle
  * Author:
- *    Caleb Hall
+ *    Caleb Hall & Marco Varela
  * Summary:
  *    Helps understand where the Shell is heading
  ************************************************************************/
