@@ -13,10 +13,12 @@
 #include "angle.h"
 #include "uiDraw.h"
 #include "physics.h"
-#include <iostream>
 #include "ground.h"
+#include <iostream>
 
 using namespace std;
+
+#define TIME_INTERVAL 0.5;
 
 class Shell
 {
@@ -27,15 +29,17 @@ private:
    Angle angle;
    bool isFired = false;
    bool collided = false;
+   double hangTime;
 
 
    const double area = 0.018842;
-   const double time_interval = 0.5; //turning the time interval into a constant so it does not change
+   const double time_interval = TIME_INTERVAL;
+   const double MUZZLE_VEL = 827.0;
+
 
 public:
    // Constructors
    Shell();
-   Shell(const Position& startPos);
 
    bool hasCollided() const { return collided;}
 
@@ -68,4 +72,8 @@ public:
    Position getPosition() const { return pos; }
 
    Shell& operator=(const Shell& shell);
+
+   double get_time() { return hangTime; }
+
+
 };

@@ -15,7 +15,7 @@
 Howitzer::Howitzer() :
    position(),
    angle(),
-   time(2.5)
+   flashDelay(0)
 {}
 
 /*
@@ -24,7 +24,7 @@ Howitzer::Howitzer() :
 */
 Howitzer::Howitzer(Position& position) :
    angle(),
-   time(2.5)
+   flashDelay(0)
 {
    this->position = position;
 }
@@ -39,7 +39,7 @@ void Howitzer::fire(Shell* shell)
    shell->setVelocity(angle);
    shell->fired();
    shell->setPosition(position);
-   time = 0;
+   flashDelay = 2;
 
 }
 
@@ -49,7 +49,7 @@ void Howitzer::fire(Shell* shell)
 */
 void Howitzer::update()
 {
-   time += TIME_INTERVAL;
+   flashDelay -= TIME_INTERVAL;
 }
 
 /*
@@ -59,7 +59,7 @@ void Howitzer::update()
 void Howitzer::draw(ogstream& gout) const
 {
    // draw the howitzer
-   gout.drawHowitzer(position, angle.getRadians(), time);
+   gout.drawHowitzer(position, angle.getRadians(), 2.0 - flashDelay);  
 }
 
 /*
@@ -71,7 +71,7 @@ void Howitzer::updateAngle(double radians)
    double newAngle = angle.getRadians() + radians;
    if (newAngle > -(3.1415 / 2) && newAngle < (3.1415 / 2))
    {
-      angle.setAngle(newAngle);
+      angle = newAngle;
    }
 };
 

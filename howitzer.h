@@ -12,16 +12,14 @@
 #include "uiDraw.h"
 #include "shell.h"
 #include "uiInteract.h" // for INTERFACE
-#define TIME_INTERVAL 0.1;
 
 class Howitzer
 {
 private:
-   const double MUZZLE_VEL = 827.0;
-
+   
    Angle angle;
    Position position;
-   double time;
+   double flashDelay;
 
    void normalize();
    

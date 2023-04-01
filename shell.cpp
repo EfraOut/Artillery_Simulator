@@ -21,31 +21,13 @@
 Shell::Shell() : pos(), vel(), angle() {}
 
 /*
-* SHELL CONSTRUCTOR
-* Initializes shell with a positon.
-*/
-Shell::Shell(const Position& startPos)
-{
-   this->pos = startPos;
-
-   double x = startPos.getPixelsX();
-   double y = startPos.getPixelsY();
-
-   for (int i = 0; i < 20; i++)
-   {
-      projectilePath[i].setPixelsX(x);
-      projectilePath[i].setPixelsY(y);
-   }
-}
-
-/*
 * SET VELOCITY
 * Sets the X any Y veocity of shell according to the muzzle velocity.
 */
 void Shell::setVelocity(Angle angle)
 {
-   vel.setDX(computeHorizontalComponent(angle, 827.0));
-   vel.setDY(computeVerticalComponent(angle, 827.0));
+   vel.setDX(computeHorizontalComponent(angle, MUZZLE_VEL));
+   vel.setDY(computeVerticalComponent(angle, MUZZLE_VEL));
 }
 
 /*
@@ -65,8 +47,7 @@ void Shell::draw(ogstream& gout)
 */
 void Shell::update(const Ground & ground)
 {
-   //cout << "Ground: " << ground->getElevationMeters(projectilePath[0]) << endl;
-   //cout << "Shell: " << pos.getMetersY() << endl;
+   hangTime += time_interval;
       
    // update the projectiles tail
    for (int i = 19; i > 0; i--)
@@ -116,6 +97,7 @@ void Shell::update(const Ground & ground)
 */
 void Shell::reset(const Position & pos)
 {
+   hangTime = 0;
    isFired = false;
    collided = false;
    for (int i = 0; i < 20; i++)

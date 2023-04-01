@@ -2,7 +2,7 @@
  * Source File:
  *    Simulation : Class definition for Simulation
  * Author:
- *    Caleb Hall and Marco Varela
+ *    Caleb Hall, Marco Varela and Efrain Gomez
  * Summary:
  *    The base of the whole program. Here is where drawing, input, and
  *    update are defined, and later called by callback()
@@ -17,8 +17,7 @@
 
 Simulation::Simulation(Position ptUpperRight) :
    ptUpperRight(ptUpperRight),
-   shell(),
-   time(0.0)
+   shell()
 {
    this->ground = Ground(ptUpperRight);
    reset();
@@ -47,17 +46,16 @@ void Simulation::update()
    // advance time by a hundreth of a second.
    if (shell.hasFired() && !shell.hasCollided())
    {
-      time += time_interval;
       // update shell
       shell.update(ground);
    }
    if (shell.hasCollided())
    {
+      //Creating a 10 pixel range for the target to be hit, -5 for the left and +5 for the right (10 pixels of range)
       if (this->ground.getTarget().getPixelsX() - 5 <= shell.getPosition().getPixelsX()
          && this->ground.getTarget().getPixelsX() + 5 >= shell.getPosition().getPixelsX())
       {
          reset();
-
       }
       else
          shell.reset(howitzer.getPosition());
@@ -89,7 +87,7 @@ void Simulation::draw()
       gout << "Distance: "
          << abs(shell.getPosition().getMetersX() - howitzer.getPosition().getMetersX()) << "m\n";
       gout << "Hang Time: "
-         << time << "s\n";
+         << shell.get_time() << "s\n";
 
    }
    else

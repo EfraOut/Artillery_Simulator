@@ -24,12 +24,9 @@ private:
    Ground ground;                 // the ground
    Position ptHowitzer;           // location of the howitzer
    Position ptUpperRight;         // size of the screen
-   double time;                   // amount of time since the last firing
 
    Shell shell;
    Howitzer howitzer;
-
-   const double time_interval = 0.5; //turning the time interval into a constant so it does not change
 
 public:
    Simulation(Position ptUpperRight);
